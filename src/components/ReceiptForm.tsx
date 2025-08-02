@@ -102,7 +102,7 @@ export const ReceiptForm = () => {
         {/* Header */}
         <div className="text-center space-y-2 print:hidden">
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Vela Dry Wash</h1>
-          <p className="text-muted-foreground text-sm sm:text-base">Create and print professional receipts instantly</p>
+          <p className="text-muted-foreground text-sm sm:text-base">Create and print receipts</p>
         </div>
 
         {/* Customer Form - Print Hidden */}
