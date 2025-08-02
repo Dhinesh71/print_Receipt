@@ -17,15 +17,13 @@ interface ReceiptItem {
 interface CustomerDetails {
   name: string;
   phone: string;
-  address: string;
 }
 
 export const ReceiptForm = () => {
   const { toast } = useToast();
   const [customer, setCustomer] = useState<CustomerDetails>({
     name: "",
-    phone: "",
-    address: ""
+    phone: ""
   });
 
   const [orderNumber, setOrderNumber] = useState(() => 
@@ -37,12 +35,7 @@ export const ReceiptForm = () => {
   );
 
   const [items, setItems] = useState<ReceiptItem[]>([
-    { id: '1', particulars: 'Shirt', rate: 30, quantity: 1, amount: 30 },
-    { id: '2', particulars: 'Pant', rate: 30, quantity: 1, amount: 30 },
-    { id: '3', particulars: 'T-Shirt', rate: 30, quantity: 1, amount: 30 },
-    { id: '4', particulars: 'Lower', rate: 30, quantity: 1, amount: 30 },
-    { id: '5', particulars: 'Vesti', rate: 30, quantity: 1, amount: 30 },
-    { id: '6', particulars: 'Vest', rate: 10, quantity: 1, amount: 10 }
+    { id: '1', particulars: '', rate: 0, quantity: 1, amount: 0 }
   ]);
 
   const calculateAmount = (rate: number, quantity: number) => rate * quantity;
@@ -102,7 +95,7 @@ export const ReceiptForm = () => {
         {/* Header */}
         <div className="text-center space-y-2 print:hidden">
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Vela Dry Wash</h1>
-          <p className="text-muted-foreground text-sm sm:text-base">Create and print receipts</p>
+          <p className="text-muted-foreground text-sm sm:text-base">made with 6ixmindslabs</p>
         </div>
 
         {/* Customer Form - Print Hidden */}
@@ -130,16 +123,7 @@ export const ReceiptForm = () => {
                 type="tel"
               />
             </div>
-            <div>
-              <Label htmlFor="customerAddress" className="text-base">Address</Label>
-              <Input
-                id="customerAddress"
-                value={customer.address}
-                onChange={(e) => setCustomer(prev => ({ ...prev, address: e.target.value }))}
-                placeholder="Enter address"
-                className="h-12 text-base mt-1"
-              />
-            </div>
+
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
@@ -177,6 +161,25 @@ export const ReceiptForm = () => {
           </div>
           
           <div className="space-y-3">
+            {/* Column Headers */}
+            <div className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3 border-b border-border">
+              <div className="flex-1 min-w-0">
+                <span className="text-sm font-medium text-muted-foreground">Item</span>
+              </div>
+              <div className="w-12 sm:w-14 md:w-16 flex-shrink-0 text-center">
+                <span className="text-sm font-medium text-muted-foreground">Qty</span>
+              </div>
+              <div className="w-14 sm:w-16 md:w-20 flex-shrink-0 text-center">
+                <span className="text-sm font-medium text-muted-foreground">Price</span>
+              </div>
+              <div className="w-14 sm:w-16 md:w-20 flex-shrink-0 text-center">
+                <span className="text-sm font-medium text-muted-foreground">Amount</span>
+              </div>
+              <div className="w-8 sm:w-10 flex-shrink-0">
+                <span className="text-sm font-medium text-muted-foreground">Action</span>
+              </div>
+            </div>
+            
             {/* Simple single-line item layout */}
             {items.map((item) => (
               <div key={item.id} className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3 border border-border rounded-lg bg-background">
@@ -248,79 +251,67 @@ export const ReceiptForm = () => {
 
         {/* Print Receipt */}
         <div className="hidden print:block print:p-0 print:m-0">
-          <div className="receipt-bg border-2 border-receipt-border p-6 max-w-sm mx-auto">
+          <div className="max-w-[230px] mx-auto bg-white p-2 font-mono text-xs">
             {/* Header */}
-            <div className="text-center border-b-2 border-receipt-border pb-4 mb-4">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Shirt className="w-6 h-6 text-receipt-header" />
-                <h1 className="text-lg font-bold text-receipt-header">Vela Dry Wash – Order Form</h1>
-              </div>
-              <div className="text-xs text-receipt-text space-y-1">
-                <p className="font-medium">Fully Mechanised Laundry Enterprise</p>
-                <p>Arasa Thottam, Sellipalayam, Uthukuli – 638 751</p>
-                <p>Mob: 95664 42121</p>
-              </div>
+            <div className="text-center mb-2">
+              <h1 className="text-sm font-bold">Vela Dry Wash</h1>
+              <p className="text-xs">Fully Mechanised Laundry Enterprise</p>
+              <p className="text-xs">Arasa Thottam, Sellipalayam, Uthukuli – 638 751</p>
+              <p className="text-xs">Mob: 95664 42121</p>
             </div>
+
+            {/* Separator */}
+            <div className="text-center mb-2">- - - - - - - - - - - - - - - -</div>
 
             {/* Order Details */}
-            <div className="space-y-2 text-xs mb-4">
-              <div className="flex justify-between">
-                <span className="font-medium">Order No:</span>
-                <span>{orderNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Date:</span>
-                <span>{new Date(date).toLocaleDateString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Customer:</span>
-                <span>{customer.name}</span>
-              </div>
-              {customer.phone && (
-                <div className="flex justify-between">
-                  <span className="font-medium">Phone:</span>
-                  <span>{customer.phone}</span>
-                </div>
-              )}
+            <div className="space-y-1 mb-2">
+              <div>Date: {new Date(date).toLocaleDateString('en-GB')}, {new Date().toLocaleTimeString()}</div>
+              <div>Customer: {customer.name}</div>
+              {customer.phone && <div>Phone: {customer.phone}</div>}
             </div>
 
-            {/* Items Table */}
-            <table className="w-full text-xs border border-receipt-border mb-4">
-              <thead>
-                <tr className="border-b border-receipt-border">
-                  <th className="text-left p-1 border-r border-receipt-border">Item</th>
-                  <th className="text-center p-1 border-r border-receipt-border">Rate</th>
-                  <th className="text-center p-1 border-r border-receipt-border">Qty</th>
-                  <th className="text-right p-1">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <tr key={item.id} className="border-b border-receipt-border">
-                    <td className="p-1 border-r border-receipt-border">{item.particulars}</td>
-                    <td className="text-center p-1 border-r border-receipt-border">₹{item.rate}</td>
-                    <td className="text-center p-1 border-r border-receipt-border">{item.quantity}</td>
-                    <td className="text-right p-1">₹{item.amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {/* Items Header */}
+            <div className="mb-1 font-mono">
+              <div className="flex gap-4">
+                <span className="w-16 text-left">Item</span>
+                <span className="w-6 text-right">Qty</span>
+                <span className="w-12 text-right">Price</span>
+                <span className="w-12 text-right">Total</span>
+              </div>
+            </div>
+
+            {/* Header Divider */}
+            <div className="mb-1 font-mono">--------------------------------</div>
+
+            {/* Items */}
+            <div className="space-y-1 mb-2 font-mono">
+              {items.map((item) => (
+                <div key={item.id} className="flex gap-4">
+                  <span className="w-16 text-left truncate">{item.particulars}</span>
+                  <span className="w-6 text-right">{item.quantity}</span>
+                  <span className="w-12 text-right">₹{item.rate.toFixed(2)}</span>
+                  <span className="w-12 text-right">₹{item.amount.toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Separator */}
+            <div className="text-center mb-2">- - - - - - - - - - - - - - - - - - - -</div>
 
             {/* Total */}
-            <div className="border-t-2 border-receipt-border pt-2 mb-4">
-              <div className="flex justify-between text-sm font-bold">
-                <span>TOTAL:</span>
-                <span>₹{totalAmount}</span>
+            <div className="mb-2">
+              <div className="flex justify-between font-bold">
+                <span>Total:</span>
+                <span>₹{totalAmount.toFixed(2)}</span>
               </div>
             </div>
 
+            {/* Separator */}
+            <div className="text-center mb-2">- - - - - - - - - - - - - - - - - - - -</div>
 
             {/* Footer */}
-            <div className="border-t border-receipt-border pt-4 text-center">
-              <div className="text-xs text-receipt-muted">
-                <p>Thank you for your business!</p>
-                <p className="mt-2">Signature: ___________________</p>
-              </div>
+            <div className="text-center">
+              <p>Thank you!</p>
             </div>
           </div>
         </div>
