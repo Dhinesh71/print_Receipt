@@ -101,7 +101,7 @@ export const ReceiptForm = () => {
       <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
         {/* Header */}
         <div className="text-center space-y-2 print:hidden">
-          <h1 className="text-2xl sm:text-3xl font-bold text-primary">Receipt Generator</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary">Vela Dry Wash</h1>
           <p className="text-muted-foreground text-sm sm:text-base">Create and print professional receipts instantly</p>
         </div>
 
