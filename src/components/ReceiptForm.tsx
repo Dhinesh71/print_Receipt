@@ -250,8 +250,8 @@ export const ReceiptForm = () => {
         </Card>
 
         {/* Print Receipt */}
-        <div className="hidden print:block print:p-0 print:m-0 print:min-h-screen print:flex print:items-center print:justify-center">
-          <div className="max-w-[230px] mx-auto bg-white p-2 font-mono text-xs print:break-inside-avoid print:page-break-inside-avoid receipt-container">
+        <div className="hidden print:block print:p-0 print:m-0">
+          <div className="max-w-[230px] mx-auto bg-white p-2 font-mono text-xs">
             {/* Header */}
             <div className="text-center mb-2">
               <h1 className="text-sm font-bold">Vela Dry Wash</h1>
